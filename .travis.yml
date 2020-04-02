@@ -12,10 +12,10 @@ services:
 
 install: true
 script: 
-  - mvn -q license:remove 
+  # - mvn -q license:remove 
   #- mvn license:update-file-header
-  - mvn -q license:format 
-  #- mvn install -DblackBoxTests.skip=true
+  # - mvn -q license:format 
+  - mvn install -DblackBoxTests.skip=true
   #- mvn install -DskipTests
-  - mvn -q clean verify -Ddockerfile.skip=false -DblackBoxTests.skip=true -DblackBoxTests.skipTailChildContainers=true -Dlicense.skip=true -DskipTests 
+  # - mvn -q clean verify -Ddockerfile.skip=false -DblackBoxTests.skip=true -DblackBoxTests.skipTailChildContainers=true -Dlicense.skip=true -DskipTests 
   #- mvn clean verify -Ddockerfile.skip=false -DblackBoxTests.skip=true -DblackBoxTests.skipTailChildContainers=true -Dlicense.skip=true -DskipTests
