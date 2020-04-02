@@ -4,20 +4,12 @@ before_install:
   - export MAVEN_OPTS="-Dmaven.repo.local=$HOME/.m2/repository -Xms1024m -Xmx3072m"
   - export HTTP_LOG_CONTROLLER_ERROR_STACK_TRACE=false
 jdk:
-  - oraclejdk8
+ - openjdk8
 language: java
 sudo: required
 services:
   - docker
-install: true
-script:
-  # - mvn -q license:remove
-  # - mvn license:update-file-header
-  # - mvn -q license:format
-  #- mvn install -DblackBoxTests.skip=true
-  #- mvn install -DskipTests
-  - mvn -q clean verify -Ddockerfile.skip=false -DblackBoxTests.skip=true -DblackBoxTests.skipTailChildContainers=true -Dlicense.skip=true -DskipTests
-  # - mvn -q install -Ddockerfile.skip=false -DblackBoxTests.skip=true -DblackBoxTests.skipTailChildContainers=true -Dlicense.skip=true -DskipTests
+script: mvn -q clean verify -Ddockerfile.skip=false -DblackBoxTests.skip=true -DblackBoxTests.skipTailChildContainers=true -Dlicense.skip=true -DskipTests
 
 before_deploy:
   # Set up git user name and tag this commit
