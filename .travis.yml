@@ -9,4 +9,4 @@ language: java
 sudo: required
 services:
   - docker
-script: mvn -q clean verify -Ddockerfile.skip=false -DblackBoxTests.skip=true -DblackBoxTests.skipTailChildContainers=true -Dlicense.skip=true -DskipTests
+script: mvn clean verify -Ddockerfile.skip=false
