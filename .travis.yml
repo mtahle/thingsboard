@@ -4,9 +4,33 @@ before_install:
   - export MAVEN_OPTS="-Dmaven.repo.local=$HOME/.m2/repository -Xms1024m -Xmx3072m"
   - export HTTP_LOG_CONTROLLER_ERROR_STACK_TRACE=false
 jdk:
- - openjdk8
+  - oraclejdk8
 language: java
 sudo: required
 services:
   - docker
-script: mvn clean verify -Ddockerfile.skip=false
+install: true
+script:
+  - mvn -q license:remove
+  - mvn license:update-file-header
+  - mvn -q license:format
+  #- mvn install -DblackBoxTests.skip=true
+  #- mvn install -DskipTests
+  - mvn -q clean verify -Ddockerfile.skip=false -DblackBoxTests.skip=true -DblackBoxTests.skipTailChildContainers=true -Dlicense.skip=true -DskipTests
+  # - mvn -q install -Ddockerfile.skip=false -DblackBoxTests.skip=true -DblackBoxTests.skipTailChildContainers=true -Dlicense.skip=true -DskipTests
+
+before_deploy:
+  # Set up git user name and tag this commit
+  - git config --local user.name "mtahle"
+  - git config --local user.email "mtahle@outlook.com"
+  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
+  - git tag $TRAVIS_TAG
+deploy:
+  provider: releases
+  api_key: "7778622ec3f2d019ba656f0a318194de650e6a18"
+  file_glob: true
+  file: "application/target/thingsboard*.*"
+  skip_cleanup: true
+  overwrite: true
+  on:
+    branch: master
